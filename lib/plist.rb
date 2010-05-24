@@ -1,3 +1,7 @@
+require 'rubygems'
+require 'nokogiri'
+require 'date'
+
 module PList
   
   class Parser

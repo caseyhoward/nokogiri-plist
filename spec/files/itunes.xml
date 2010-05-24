@@ -1,0 +1,100 @@
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Major Version</key><integer>1</integer>
+  <key>Minor Version</key><integer>1</integer>
+  <key>Application Version</key><string>9.0.3</string>
+  <key>Features</key><integer>5</integer>
+  <key>Show Content Ratings</key><true/>
+  <key>Music Folder</key><string>file://localhost/H:/Music/iTunes/iTunes%20Music/</string>
+  <key>Library Persistent ID</key><string>E86929F823A6944A</string>
+  <key>Tracks</key>
+  <dict>
+    <key>123</key>
+    <dict>
+      <key>Track ID</key><integer>123</integer>
+      <key>Name</key><string>Lacquer Head</string>
+      <key>Artist</key><string>Primus</string>
+      <key>Album Artist</key><string>Primus</string>
+      <key>Composer</key><string>Primus</string>
+      <key>Album</key><string>Antipop</string>
+      <key>Genre</key><string>Alternative</string>
+      <key>Kind</key><string>MPEG audio file</string>
+      <key>Size</key><integer>9193326</integer>
+      <key>Total Time</key><integer>229485</integer>
+      <key>Track Number</key><integer>4</integer>
+      <key>Year</key><integer>1999</integer>
+      <key>Date Modified</key><date>2008-07-20T23:14:08Z</date>
+      <key>Date Added</key><date>2008-06-23T21:51:42Z</date>
+      <key>Bit Rate</key><integer>320</integer>
+      <key>Sample Rate</key><integer>44100</integer>
+      <key>Comments</key><string> 00000000 00000210 00000A70 00000000009A6000 00000000 008BF07E 00000000 00000000 00000000 00000000 00000000 00000000</string>
+      <key>Play Count</key><integer>10</integer>
+      <key>Play Date</key><integer>3341561751</integer>
+      <key>Play Date UTC</key><date>2009-11-20T19:35:51Z</date>
+      <key>Skip Count</key><integer>3</integer>
+      <key>Skip Date</key><date>2009-03-27T22:17:34Z</date>
+      <key>Rating</key><integer>80</integer>
+      <key>Album Rating</key><integer>80</integer>
+      <key>Album Rating Computed</key><true/>
+      <key>Artwork Count</key><integer>1</integer>
+      <key>Persistent ID</key><string>B37515EE6655470E</string>
+      <key>Track Type</key><string>File</string>
+      <key>Location</key><string>file://localhost/H:/Music/Primus/Antipop/04%20Lacquer%20Head.mp3</string>
+      <key>File Folder Count</key><integer>-1</integer>
+      <key>Library Folder Count</key><integer>-1</integer>
+    </dict>
+    <key>124</key>
+    <dict>
+      <key>Track ID</key><integer>124</integer>
+      <key>Name</key><string>Given to Fly</string>
+      <key>Artist</key><string>Pearl Jam</string>
+      <key>Album Artist</key><string>Pearl Jam</string>
+      <key>Composer</key><string>Mike McCready</string>
+      <key>Album</key><string>Yield</string>
+      <key>Genre</key><string>Rock</string>
+      <key>Kind</key><string>MPEG audio file</string>
+      <key>Size</key><integer>3852583</integer>
+      <key>Total Time</key><integer>240561</integer>
+      <key>Track Number</key><integer>4</integer>
+      <key>Year</key><integer>1998</integer>
+      <key>Date Modified</key><date>2008-07-20T23:08:12Z</date>
+      <key>Date Added</key><date>2008-06-23T21:48:56Z</date>
+      <key>Bit Rate</key><integer>128</integer>
+      <key>Sample Rate</key><integer>44100</integer>
+      <key>Play Count</key><integer>12</integer>
+      <key>Play Date</key><integer>3340408528</integer>
+      <key>Play Date UTC</key><date>2009-11-07T11:15:28Z</date>
+      <key>Skip Count</key><integer>2</integer>
+      <key>Skip Date</key><date>2009-08-08T08:13:52Z</date>
+      <key>Rating</key><integer>100</integer>
+      <key>Album Rating</key><integer>80</integer>
+      <key>Album Rating Computed</key><true/>
+      <key>Persistent ID</key><string>B37515EE66554374</string>
+      <key>Track Type</key><string>File</string>
+      <key>Location</key><string>file://localhost/H:/Music/Pearl%20Jam/Yield/04%20Given%20to%20Fly.mp3</string>
+      <key>File Folder Count</key><integer>-1</integer>
+      <key>Library Folder Count</key><integer>-1</integer>
+    </dict>
+  </dict>
+  <key>Playlists</key>
+  <array>
+    <dict>
+      <key>Name</key><string>All</string>
+      <key>Playlist ID</key><integer>1</integer>
+      <key>Playlist Persistent ID</key><string>88CED99A2F698F3C</string>
+      <key>All Items</key><true/>
+      <key>Playlist Items</key>
+      <array>
+        <dict>
+          <key>Track ID</key><integer>123</integer>
+        </dict>
+        <dict>
+          <key>Track ID</key><integer>124</integer>
+        </dict>        
+      </array>
+    </dict>
+  </array>
+</dict>
