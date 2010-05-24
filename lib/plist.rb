@@ -57,7 +57,8 @@ module PList
     
     def self.parse_array(node)
       return_value = []
-      filter_node(node).each do |node|
+      while node != nil
+        node = node.next_valid_sibling(node)
         return_value << parse_value_node(node)
       end
       return_value
@@ -65,7 +66,7 @@ module PList
     
     def self.next_valid_sibling(node)
       next_node = node.next_sibling
-      until PList::Parser.valid_type? next_node.name
+      until PList::Parser.valid_type? next_node.name || next_node.nil?
         next_node = next_node.next_sibling
       end
       next_node
