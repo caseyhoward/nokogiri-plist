@@ -49,10 +49,7 @@ module PList
     def self.parse_dict(node)
       return_value = {}
       node.xpath('./key').each do |key_node|
-        value_node = key_node.next_sibling
-        until PList::Parser.valid_type? value_node.name
-          value_node = value_node.next_sibling
-        end
+        value_node = next_valid_sibling(key_node)
         return_value[key_node.content] = parse_value_node(value_node)
       end
       return_value
@@ -64,6 +61,14 @@ module PList
         return_value << parse_value_node(node)
       end
       return_value
+    end
+    
+    def self.next_valid_sibling(node)
+      next_node = node.next_sibling
+      until PList::Parser.valid_type? next_node.name
+        next_node = next_node.next_sibling
+      end
+      next_node
     end
     
   end
