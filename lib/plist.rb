@@ -47,26 +47,20 @@ module PList
     end
     
     def self.parse_dict(node)
-      return_value = {}
-      node.xpath('./key').each do |key_node|
-        value_node = next_valid_sibling(key_node)
-        return_value[key_node.content] = parse_value_node(value_node)
+      node.xpath('./key').inject({}) do |return_value, key_node|
+        return_value.merge( { key_node.content => parse_value_node(next_valid_sibling key_node)} )
       end
-      return_value
     end
     
     def self.parse_array(node)
-      return_value = []
-      while node != nil
-        node = node.next_valid_sibling(node)
+      filter_node(node).inject([]) do |return_value, node|
         return_value << parse_value_node(node)
       end
-      return_value
     end
     
-    def self.next_valid_sibling(node)
-      next_node = node.next_sibling
-      until PList::Parser.valid_type? next_node.name || next_node.nil?
+    def self.next_valid_sibling(node, ignore_self=true)
+      next_node = ignore_self ? node.next_sibling : node
+      until next_node.nil? or PList::Parser.valid_type? next_node.name
         next_node = next_node.next_sibling
       end
       next_node
