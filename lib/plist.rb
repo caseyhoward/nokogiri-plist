@@ -13,7 +13,7 @@ module PList
       'integer' => Proc.new { |node| node.content.to_i },
       'real'    => Proc.new { |node| node.content.to_f },
       'string'  => Proc.new { |node| node.content.to_s },
-      'date'    => Proc.new { |node| DateTime.strptime(node.content, "%Y-%m-%dT%H:%M:%SZ") },
+      'date'    => Proc.new { |node| DateTime.parse(node.content) },
       'true'    => Proc.new { |node| true },
       'false'   => Proc.new { |node| false },
       'dict'    => Proc.new { |node| parse_dict node },
@@ -35,7 +35,7 @@ module PList
     end
     
     def self.valid_type?(type)
-      types.include? type
+      not converters[type].nil?
     end
     
     def self.valid_node?(node)
@@ -48,7 +48,8 @@ module PList
     
     def self.parse_dict(node)
       node.xpath('./key').inject({}) do |return_value, key_node|
-        return_value.merge( { key_node.content => parse_value_node(next_valid_sibling key_node)} )
+        return_value[key_node.content] = parse_value_node(next_valid_sibling key_node)
+        return_value
       end
     end
     
@@ -58,12 +59,11 @@ module PList
       end
     end
     
-    def self.next_valid_sibling(node, ignore_self=true)
-      next_node = ignore_self ? node.next_sibling : node
-      until next_node.nil? or PList::Parser.valid_type? next_node.name
-        next_node = next_node.next_sibling
+    def self.next_valid_sibling(node)
+      until node.nil? or PList::Parser.valid_type? node.name
+        node = node.next_sibling
       end
-      next_node
+      node
     end
     
   end
