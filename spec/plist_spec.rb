@@ -18,7 +18,9 @@ describe PList::Parser do
       @plist['Library Persistent ID'].should == 'E86929F823A6944A'
       @plist['Tracks'].size.should == 2
       @plist['Tracks']['123']['Name'].should == 'Lacquer Head' 
-      @plist['Playlists'][0]['Name'].should == 'All' 
+      @plist['Playlists'][0]['Name'].should == 'All'
+      @plist['Playlists'][0]['Playlist Items'][0]['Track ID'].should == 123
+      @plist['Playlists'][0]['Playlist Items'][1]['Track ID'].should == 124
     end
 
   end
