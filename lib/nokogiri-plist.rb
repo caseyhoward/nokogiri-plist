@@ -1,6 +1,8 @@
 require 'nokogiri'
 require 'date'
-require 'lib/nokogiri/plist'
-require 'lib/nokogiri/xml/node'
-require 'lib/string'
 
+require File.join(File.dirname(__FILE__), 'string')
+require File.join(File.dirname(__FILE__), 'nokogiri', 'plist', 'generator')
+require File.join(File.dirname(__FILE__), 'nokogiri', 'plist', 'parser')
+require File.join(File.dirname(__FILE__), 'nokogiri', 'plist')
+require File.join(File.dirname(__FILE__), 'nokogiri', 'xml', 'node')
