@@ -1,6 +1,6 @@
 module Nokogiri
 
-  class PList
+  module PList
       
     class Parser
       
