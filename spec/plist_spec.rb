@@ -1,11 +1,15 @@
-require 'lib/plist'
+require 'nokogiri'
+#require 'date'
+#require 'lib/nokogiri/plist'
+#require 'lib/nokogiri/xml/node'
+#require 'lib/string'
 
-describe PList::Parser do
+describe 'plist' do
 
   describe ".parse" do
   
     before(:each) do
-      @plist = PList::Parser.parse(File.join("spec", "files", "itunes.xml"))
+      @plist = Nokogiri::PList(open(File.join("spec", "files", "itunes.xml")))
     end
 
     it "parses correctly" do

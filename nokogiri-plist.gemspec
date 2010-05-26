@@ -9,11 +9,11 @@ Gem::Specification.new do |s|
   s.authors     = ["Casey Howard"]
   s.email       = ["caseyhoward@caseyhoward.com"]
   s.homepage    = "http://github.com/caseyhoward/nokogiri-plist"
-  s.summary     = "The best way to manage your application's dependencies"
-  s.description = "Bundler manages an application's dependencies through its entire life, across many machines, systematically and repeatably"
+  s.summary     = "PList parsing capabilities built using Nokogiri"
+  s.description = "Allows Nokogiri objects to be converted to PLists"
  
   s.required_rubygems_version = ">= 1.3.6"
-  s.rubyforge_project         = "plist"
+  s.rubyforge_project         = "nokogiri-plist"
  
   s.add_development_dependency "rspec"
  
