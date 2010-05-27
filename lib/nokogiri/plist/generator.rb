@@ -15,7 +15,7 @@ module Nokogiri
             value.inject("") do |result, item|  
               newline = array_or_hash?(item) ? "\n" : ""
               indent = current_indent + indent_size           # array_or_hash?(item) ? 0 : current_indent + indent_size              
-              item.to_plist_xml(indent)
+              result + item.to_plist_xml(indent)
             end +
             indent(current_indent) + "</array>\n"
           when Hash
