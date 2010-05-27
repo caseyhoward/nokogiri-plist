@@ -14,7 +14,7 @@ There is already a plist gem (http://github.com/bleything/plist) that has simila
 * Uses the awesome Nokogiri gem
 
 
-== Usage:
+== USAGE:
 
   Sample plist (test.plist)
 
@@ -73,6 +73,8 @@ There is already a plist gem (http://github.com/bleything/plist) that has simila
 
 
 == INSTALL:
+
+I haven't published this gem yet, but once I write tests and more documentation I will and the following will work:
 
 * gem install nokogiri-plist
 
