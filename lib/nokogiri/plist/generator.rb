@@ -15,7 +15,7 @@ module Nokogiri
             value.inject("") do |result, item|  
               newline = array_or_hash?(item) ? "\n" : ""
               indent = current_indent + indent_size           # array_or_hash?(item) ? 0 : current_indent + indent_size              
-              result + item.to_plist_xml(indent)
+              result + item.to_plist_xml_unchomped(indent)
             end +
             indent(current_indent) + "</array>\n"
           when Hash
@@ -25,7 +25,7 @@ module Nokogiri
               result +
               indent(current_indent + indent_size) + "<key>#{item[0]}</key>" +
               newline +
-              item[1].to_plist_xml(current_indent + indent_size, false)
+              item[1].to_plist_xml_unchomped(current_indent + indent_size, false)
             end +
             indent(current_indent) + "</dict>\n"
           when TrueClass, FalseClass
@@ -59,8 +59,12 @@ end
 [String, Symbol, Integer, Float, Date, Time, Hash, Array, TrueClass, FalseClass].each do |klass|
   
   klass.class_eval do
-    
+
     def to_plist_xml(current_indent = 0, do_indent=true)
+      self.to_plist_xml_unchomped(current_indent, do_indent).chomp
+    end
+    
+    def to_plist_xml_unchomped(current_indent = 0, do_indent=true)
       Nokogiri::PList::Generator.to_s(self, current_indent, do_indent)
     end
     
