@@ -1,0 +1,78 @@
+= Nokogiri-PList
+
+== DESCRIPTION:
+
+Nokogiri-plist provides the functionality for dealing with XML in Apple's property list format.
+
+There is already a [plist gem](http://github.com/bleything/plist) that has similar functionality. I didn't realize it until I had written most of this gem. However this gem uses Nokogiri, so the implementation is simpler. The plist gem does it's own XML parsing. I figured since I was already using Nokogiri in my project, it's better to build on top of that. I have benchmarked this against that gem and it performs very similarly.
+
+
+== FEATURES:
+
+* Parsers plist files into simple basic Ruby objects
+* Generates plist XML from Ruby objects
+* Uses the awesome Nokogiri gem
+
+
+== Usage:
+
+  Sample plist (test.plist)
+
+  <plist>
+    <dict>
+      <key>Beers</key>
+      <array>
+        <string>Black Butte</string>
+        <string>Steel Reserve</string>
+        <string>Bass Pale Ale</string>
+      </array>
+      <key>Beer Drinker</key><string>Casey</key>
+      <key>Beers Drank</key><integer>4123</integer>
+    </dict>
+  </plist>
+
+
+  >  require 'nokogiri-plist'
+  
+  >  plist = Nokogiri::PList(open('test.plist'))
+  => { "Beers" => ["Black Butte", "Steel Reserve", "Bass Pale Ale"], "Beers Drank" => 4123, "Beer Drinker" => "Casey"}
+  
+  >  plist["Beers"]
+  => ["Black Butte", "Steel Reserve", "Bass Pale Ale"]
+  
+  >  plist["Beer Drinker"]
+  => "Casey"
+  
+  > puts plist.to_plist_xml
+    <dict>
+      <key>Beers</key>
+      <array>
+        <string>Black Butte</string>
+        <string>Steel Reserve</string>
+        <string>Bass Pale Ale</string>
+      </array>
+      <key>Beers Drank</key><integer>4123</integer>
+      <key>Beer Drinker</key><string>Casey</string>
+    </dict>
+    
+  > "beer".to_plist_xml
+  => "<string>beer</string>" 
+  
+  > puts (1..3).to_a.to_plist_xml
+  <array>
+    <integer>1</integer>
+    <integer>2</integer>
+    <integer>3</integer>
+  </array>
+
+== REQUIREMENTS:
+
+* ruby 1.9 (I'll eventually make sure it works in 1.8, but I'm using 1.9 at the moment)
+* nokogiri
+* shoulda and mocha (only if you want to run the tests)
+
+
+== INSTALL:
+
+* gem install nokogiri-plist
+
