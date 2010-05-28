@@ -18,9 +18,9 @@ module Nokogiri
             end
           when Hash
             tag("dict", nil, current_indent) do
-              value.inject("") do |result, item| 
-                result + tag("key", item[0], current_indent + 1).chomp +
-                item[1].to_plist_xml_unchomped
+              value.inject("") do |result, (dict_key, dict_value)| 
+                result + tag("key", dict_key, current_indent + 1).chomp +
+                dict_value.to_plist_xml_unchomped
               end
             end
           when TrueClass
