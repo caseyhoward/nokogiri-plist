@@ -54,11 +54,7 @@ module Nokogiri
           closing_tag_indent = same_line ? 0 : current_indent
           indent(current_indent) + "<#{name}>" + 
           (same_line ? "" : "\n") +
-          if block_given?
-            yield
-          else
-            content
-          end.to_s +
+          (block_given? ? yield : content).to_s +
           indent(closing_tag_indent) + "</#{name}>\n"
         else
           indent(current_indent) + "<#{name}/>\n" 
