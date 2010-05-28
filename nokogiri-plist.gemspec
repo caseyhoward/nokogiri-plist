@@ -4,7 +4,7 @@ $:.unshift lib unless $:.include?(lib)
  
 Gem::Specification.new do |s|
   s.name        = "nokogiri-plist"
-  s.version     = '0.1.0'
+  s.version     = '0.2.0'
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Casey Howard"]
   s.email       = ["caseyhoward@caseyhoward.com"]
@@ -17,6 +17,6 @@ Gem::Specification.new do |s|
  
   s.add_development_dependency "rspec"
  
-  s.files        = Dir.glob("{lib}/**/*") + %w(LICENSE README.markdown)  
+  s.files        = Dir.glob("{lib}/**/*") + %w(LICENSE README.rdoc)  
   s.require_paths = ['lib']
 end
