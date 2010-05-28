@@ -49,17 +49,20 @@ module Nokogiri
       end
       
       def self.tag(name, content=nil, current_indent=0, &block)
-        return indent(current_indent) + "<#{name}/>\n" unless content or block_given?
-        same_line = (["array", "dict"].include? name) ? false : true
-        closing_tag_indent = same_line ? 0 : current_indent
-        indent(current_indent) + "<#{name}>" + 
-        (same_line ? "" : "\n") +
-        if block_given?
-          yield
+        if content or block_given?
+          same_line = (["array", "dict"].include? name) ? false : true
+          closing_tag_indent = same_line ? 0 : current_indent
+          indent(current_indent) + "<#{name}>" + 
+          (same_line ? "" : "\n") +
+          if block_given?
+            yield
+          else
+            content
+          end.to_s +
+          indent(closing_tag_indent) + "</#{name}>\n"
         else
-          content
-        end.to_s +
-        indent(closing_tag_indent) + "</#{name}>\n"
+          indent(current_indent) + "<#{name}/>\n" 
+        end
       end
     end
     
