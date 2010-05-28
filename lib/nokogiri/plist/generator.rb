@@ -18,7 +18,7 @@ module Nokogiri
             end
           when Hash
             tag("dict", nil, current_indent) do
-              value.inject("") do |result, (dict_key, dict_value)| 
+              value.inject("") do |result, (dict_key, dict_value)|
                 result + tag("key", dict_key, current_indent + 1).chomp +
                 dict_value.to_plist_xml_unchomped
               end

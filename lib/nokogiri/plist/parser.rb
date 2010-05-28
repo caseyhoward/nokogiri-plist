@@ -24,10 +24,6 @@ module Nokogiri
         @converters[value_node.name].call(value_node)
       end
       
-      def types
-        @converters.keys
-      end
-      
       def valid_type?(type)
         not @converters[type].nil?
       end
