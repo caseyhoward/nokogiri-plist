@@ -50,8 +50,8 @@ module Nokogiri
       
       def self.tag(name, content=nil, current_indent=0, &block)
         if content or block_given?
-          new_line = (["array", "dict"].include? name) ? "" : "\n"
-          closing_tag_indent = same_line ? 0 : current_indent
+          new_line = (["array", "dict"].include? name) ? "\n" : ""
+          closing_tag_indent = (new_line != "\n") ? 0 : current_indent
           indent(current_indent) + "<#{name}>" + new_line +
           (block_given? ? yield : content).to_s +
           indent(closing_tag_indent) + "</#{name}>\n"
