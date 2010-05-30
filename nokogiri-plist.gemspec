@@ -4,7 +4,7 @@ $:.unshift lib unless $:.include?(lib)
  
 Gem::Specification.new do |s|
   s.name        = "nokogiri-plist"
-  s.version     = '0.2.0'
+  s.version     = '0.3.0'
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Casey Howard"]
   s.email       = ["caseyhoward@caseyhoward.com"]
@@ -13,7 +13,6 @@ Gem::Specification.new do |s|
   s.description = "Allows Nokogiri objects to be converted to PLists"
  
   s.required_rubygems_version = ">= 1.3.6"
-  s.rubyforge_project         = "nokogiri-plist"
  
   s.add_development_dependency ""
  
