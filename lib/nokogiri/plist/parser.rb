@@ -6,7 +6,7 @@ module Nokogiri
       
       class << self
         
-        def parse(xml)
+        def parse(xml, options={})
           @converters = {
             'integer' => Proc.new { |node| node.content.to_i },
             'real'    => Proc.new { |node| node.content.to_f },
@@ -17,7 +17,8 @@ module Nokogiri
             'dict'    => Proc.new { |node| parse_dict node },
             'array'   => Proc.new { |node| parse_array node },
             'data'    => Proc.new { |node| node.content.to_s }
-          }
+          }.merge(options[:converters] || {})
+          @dict_class = options[:dict_class] || Hash
           plist = xml.root
           plist = plist.children.first if plist.name == "plist"
           parse_value_node next_valid_sibling plist
@@ -36,7 +37,7 @@ module Nokogiri
         end
         
         def parse_dict(node)
-          node.xpath('./key').inject({}) do |return_value, key_node|
+          node.xpath('./key').inject(@dict_class.new) do |return_value, key_node|
             return_value[key_node.content] = parse_value_node(next_valid_sibling key_node)
             return_value
           end

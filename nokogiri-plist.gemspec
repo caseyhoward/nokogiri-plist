@@ -15,8 +15,8 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = ">= 1.3.6"
   s.rubyforge_project         = "nokogiri-plist"
  
-  s.add_development_dependency "rspec"
+  s.add_development_dependency ""
  
-  s.files        = Dir.glob("{lib}/**/*") + %w(LICENSE README.rdoc)  
+  s.files        = Dir.glob("{lib, test}/**/*") + %w(LICENSE README.rdoc)  
   s.require_paths = ['lib']
 end

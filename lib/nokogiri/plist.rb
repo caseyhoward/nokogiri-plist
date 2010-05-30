@@ -3,7 +3,7 @@ module Nokogiri
   class << self
     
     def PList(xml)
-      Nokogiri::PList::Parser.new.parse(Nokogiri::XML(xml))
+      Nokogiri::PList::Parser.parse(Nokogiri::XML(xml))
     end 
     
   end

@@ -1,5 +1,9 @@
-
-require 'nokogiri'
+begin
+  require 'nokogiri'  
+rescue LoadError
+  require 'rubygems'
+  retry
+end
 require 'date'
 
 # TODO: Do this a not so stupid way

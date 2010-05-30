@@ -5,7 +5,7 @@ module Nokogiri
     class Node
       
       def to_plist
-        Nokogiri::PList::Parser.new.parse(self)
+        Nokogiri::PList::Parser.parse(self)
       end
       
     end

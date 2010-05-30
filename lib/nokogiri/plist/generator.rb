@@ -9,6 +9,7 @@ module Nokogiri
       end
       
       def self.to_s(value, current_indent = 0)
+        # Todo: make these procs and allow custom procs (for data for example)
         case value
           when Array
             tag("array", nil, current_indent) do
