@@ -5,7 +5,7 @@ class Nokogiri::PList::GeneratorTest < Test::Unit::TestCase
   context ".to_s" do    
     
     should "output arrays correctly" do
-      xml_lines = [1, "2", true, 0.3].to_plist_xml(2).split(/\n/)
+      xml_lines = [1, "2", true, 0.3].to_plist_xml(2)
       assert_equal([
                     "    <array>",
                     "      <integer>1</integer>",
