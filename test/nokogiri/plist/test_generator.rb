@@ -46,7 +46,6 @@ class Nokogiri::PList::GeneratorTest < Test::Unit::TestCase
     
     should "output false correctly" do
       assert_equal "<false/>", false.to_plist_xml
-      # assert_equal "    <false/>", false.to_plist_xml(:indent => { :spaces => 2 })
       assert_equal "    <false/>", false.to_plist_xml(2)
     end
     
