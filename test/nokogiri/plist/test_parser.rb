@@ -10,7 +10,7 @@ class Nokogiri::PList::ParserTest < Test::Unit::TestCase
     assert_equal 3, Nokogiri::PList("<plist><integer>3</integer></plist>")
   end
 
-  should "parse plists with plist tags" do
+  should "parse plists without plist tags" do
     assert_equal 3, Nokogiri::PList("<integer>3</integer>")
     assert_equal 3.14, Nokogiri::PList("<real>3.14</real>")
     assert_equal "blah", Nokogiri::PList("<string>blah</string>")
