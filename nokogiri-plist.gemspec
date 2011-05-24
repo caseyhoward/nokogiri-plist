@@ -1,10 +1,11 @@
 # -*- encoding: utf-8 -*-
 lib = File.expand_path('../lib/', __FILE__)
 $:.unshift lib unless $:.include?(lib)
+require 'nokogiri-plist/version'
 
 Gem::Specification.new do |s|
   s.name        = "nokogiri-plist"
-  s.version     = '0.3.1'
+  s.version     = NokogiriPList::VERSION
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Casey Howard"]
   s.email       = ["caseyhoward@caseyhoward.com"]
