@@ -1,14 +1,20 @@
+load_path = File.expand_path(File.dirname(__FILE__))
+$LOAD_PATH.unshift(load_path) unless $LOAD_PATH.include?(load_path)
+
 begin
-  require 'nokogiri'  
+  require 'nokogiri'
 rescue LoadError
   require 'rubygems'
   retry
 end
 require 'date'
 
-# TODO: Do this a not so stupid way
-require File.join(File.dirname(__FILE__), 'string')
-require File.join(File.dirname(__FILE__), 'nokogiri', 'plist', 'generator')
-require File.join(File.dirname(__FILE__), 'nokogiri', 'plist', 'parser')
-require File.join(File.dirname(__FILE__), 'nokogiri', 'plist')
-require File.join(File.dirname(__FILE__), 'nokogiri', 'xml', 'node')
+require 'nokogiri-plist/generator'
+require 'nokogiri-plist/parser'
+require 'nokogiri-plist/node'
+require 'nokogiri-plist/plist'
+
+require 'core_ext/string'
+
+# Nokogiri::XML::Node.extend NokogiriPList::Node
+Nokogiri::XML::Node.send :include, NokogiriPList::Node

@@ -1,8 +1,8 @@
-require File.dirname(__FILE__) + '/../../test_helper'
+require 'test/test_helper'
 
-class Nokogiri::PList::GeneratorTest < Test::Unit::TestCase
+class NokogiriPList::GeneratorTest < Test::Unit::TestCase
       
-  context ".to_s" do    
+  context ".to_s" do
     
     should "output arrays correctly" do
       xml_lines = [1, "2", true, 0.3].to_plist_xml(2).split(/\n/)
@@ -22,7 +22,7 @@ class Nokogiri::PList::GeneratorTest < Test::Unit::TestCase
       assert_same_elements([
           "      <key>one</key><integer>1</integer>",
           "      <key>two</key><string>2</string>",
-          "      <key>3</key><string>Three</string>"       
+          "      <key>3</key><string>Three</string>"
         ],
         xml_lines[1..3]
       )

@@ -1,6 +1,6 @@
-require File.dirname(__FILE__) + '/../../test_helper'
+require 'test/test_helper'
 
-class Nokogiri::PList::ParserTest < Test::Unit::TestCase
+class NokogiriPList::ParserTest < Test::Unit::TestCase
 
   should "parse plists with plist tags" do
     assert_equal 3, Nokogiri::PList("<plist><integer>3</integer></plist>")
