@@ -4,7 +4,7 @@
 
 Nokogiri-plist provides the functionality for dealing with XML in Apple's property list format.
 
-There is already a plist gem (http://github.com/bleything/plist) that has similar functionality. I didn't realize it until I had written most of this gem. However this gem uses Nokogiri, so the implementation is simpler. The plist gem does it's own XML parsing. I figured since I was already using Nokogiri in my project, it's better to build on top of that. I did get ideas from the original gem. I have benchmarked my gem against that gem and it performs similarly. Once I come up with a little more scientific benchmarks, I'll show them.'
+There is already a plist gem (http://github.com/bleything/plist) that has similar functionality. I didn't realize it until I had written most of this gem. However this gem uses Nokogiri, so the implementation is simpler. The plist gem does its own XML parsing. I figured since I was already using Nokogiri in my project, it's better to build on top of that. I did get ideas from the original gem. I have benchmarked my gem against that gem and it performs similarly. Once I come up with a little more scientific benchmarks, I'll show them.'
 
 
 == FEATURES:

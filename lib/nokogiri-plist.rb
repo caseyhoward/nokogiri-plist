@@ -16,5 +16,4 @@ require 'nokogiri-plist/plist'
 
 require 'core_ext/string'
 
-# Nokogiri::XML::Node.extend NokogiriPList::Node
 Nokogiri::XML::Node.send :include, NokogiriPList::Node
