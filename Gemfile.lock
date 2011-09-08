@@ -1,0 +1,20 @@
+PATH
+  remote: .
+  specs:
+    nokogiri-plist (0.4.1)
+      nokogiri
+
+GEM
+  remote: http://rubygems.org/
+  specs:
+    mocha (0.9.12)
+    nokogiri (1.4.4)
+    shoulda (2.11.3)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  mocha
+  nokogiri-plist!
+  shoulda
