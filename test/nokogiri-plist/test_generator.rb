@@ -49,6 +49,12 @@ class NokogiriPList::GeneratorTest < Test::Unit::TestCase
       assert_equal "    <false/>", false.to_plist_xml(2)
     end
     
+    should "output decimal correctly" do
+      require 'bigdecimal'
+      assert_equal "<real>42.0</real>", BigDecimal.new("42").to_plist_xml
+      assert_equal "    <real>42.0</real>", BigDecimal.new("42").to_plist_xml(2)
+    end
+
   end
 
 end
