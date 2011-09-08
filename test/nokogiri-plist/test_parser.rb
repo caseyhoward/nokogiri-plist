@@ -17,5 +17,5 @@ class NokogiriPList::ParserTest < Test::Unit::TestCase
     assert_equal [1, "2", true, 0.3], Nokogiri::PList("<array> <integer>1</integer> <string>2</string> <true/> <real>0.3</real> </array>")
     assert_equal 3, Nokogiri::PList("<integer>3<f/integer>")
   end
-    
+
 end

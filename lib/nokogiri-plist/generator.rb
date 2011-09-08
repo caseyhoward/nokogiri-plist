@@ -1,13 +1,13 @@
 require 'bigdecimal'
 
 module NokogiriPList
-    
+
   class Generator
-      
+
     def self.indent_size
       2
     end
-    
+
     def self.to_s(value, current_indent = 0)
       # Todo: make these procs and allow custom procs (for data for example)
       case value
@@ -42,15 +42,15 @@ module NokogiriPList
           tag("real", value.to_s('F'), current_indent)
         end
       end
-      
+
     def self.indent(number)
       " " * (number * indent_size)
     end
-    
+
     def self.array_or_hash?(item)
       item.is_a?(Hash) or item.is_a?(Array)
     end
-    
+
     def self.tag(name, content=nil, current_indent=0, &block)
       if content or block_given?
         new_line = (["array", "dict"].include? name) ? "\n" : ""
@@ -63,21 +63,21 @@ module NokogiriPList
       end
     end
   end
-  
+
 end
 
-  
+
 [String, Symbol, Integer, Float, BigDecimal, Date, Time, Hash, Array, TrueClass, FalseClass].each do |klass|
   klass.class_eval do
 
     def to_plist_xml(current_indent = 0)
       self.to_plist_xml_unchomped(current_indent).chomp
     end
-    
+
     def to_plist_xml_unchomped(current_indent = 0)
       NokogiriPList::Generator.to_s(self, current_indent)
     end
-    
+
   end
 
 end
