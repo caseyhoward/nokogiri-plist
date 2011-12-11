@@ -33,22 +33,24 @@ There is already a plist gem (http://github.com/bleything/plist) that has simila
 
 
   >  require 'nokogiri-plist'
-  
+
   Parse the plist XML
 
   >  plist = Nokogiri::PList(open('test.plist'))
   => { "Beers" => ["Black Butte", "Steel Reserve", "Bass Pale Ale"], "Beers Drank" => 4123, "Beer Drinker" => "Casey"}
-  
+
   Read a dict property thats value is an array
 
   >  plist["Beers"]
   => ["Black Butte", "Steel Reserve", "Bass Pale Ale"]
-  
+
   Read another value
 
   >  plist["Beer Drinker"]
   => "Casey"
-  
+
+
+
   Turn it into a string containing XML
 
   > puts plist.to_plist_xml
@@ -62,12 +64,12 @@ There is already a plist gem (http://github.com/bleything/plist) that has simila
       <key>Beers Drank</key><integer>4123</integer>
       <key>Beer Drinker</key><string>Casey</string>
     </dict>
-    
+
   Convert a string into a plist XML string
 
   > "beer".to_plist_xml
-  => "<string>beer</string>" 
-  
+  => "<string>beer</string>"
+
   Convert an array to a plist XML string
 
   > puts (1..3).to_a.to_plist_xml

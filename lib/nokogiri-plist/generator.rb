@@ -36,9 +36,10 @@ module NokogiriPList
       when BigDecimal
         xml.real value.to_s('F')
       end
-
     end
+
   end
+
 end
 
 [String, Symbol, Integer, Float, BigDecimal, Date, Time, Hash, Array, TrueClass, FalseClass].each do |klass|
