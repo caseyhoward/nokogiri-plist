@@ -24,7 +24,9 @@ module NokogiriPList
       when FalseClass
         xml.false
       when Time
+        xml.date value.utc.strftime('%Y-%m-%dT%H:%M:%SZ')
       when Date # also catches DateTime
+        xml.date value.strftime('%Y-%m-%dT%H:%M:%SZ')
       when String, Symbol
         xml.string value
       when Fixnum, Bignum, Integer
