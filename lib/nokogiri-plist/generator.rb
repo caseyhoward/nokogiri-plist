@@ -49,10 +49,7 @@ end
         builder = Nokogiri::XML::Builder.new do |xml|
           NokogiriPList::Generator.to_xml(self, xml)
         end
-        xml = builder.to_xml(options)
-        xml.sub!(/^[^\n]*\n/, "")
-        xml.chomp!
-        xml
+        builder.to_xml(options)
       end
     end
 
