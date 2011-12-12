@@ -4,37 +4,41 @@ module NokogiriPList
 
   class Generator
 
-    def self.to_xml(value, xml)
-      case value
-      when Array
+    @generators = {
+      Array => Proc.new do |xml, value|
         xml.array do
           value.each do |value|
-            value.to_plist_xml(0, xml)
+            value.to_plist_xml({}, xml)
           end
         end
-      when Hash
+      end,
+      Hash => Proc.new do |xml, value|
         xml.dict do
-          value.each do |dict_key, dict_value|
-            xml.key dict_key
-            dict_value.to_plist_xml(0, xml)
+          value.each do |key, value|
+            xml.key key
+            value.to_plist_xml({}, xml)
           end
         end
-      when TrueClass
-        xml.true
-      when FalseClass
-        xml.false
-      when Time
-        xml.date value.utc.strftime('%Y-%m-%dT%H:%M:%SZ')
-      when Date # also catches DateTime
-        xml.date value.strftime('%Y-%m-%dT%H:%M:%SZ')
-      when String, Symbol
-        xml.string value
-      when Fixnum, Bignum, Integer
-        xml.integer value
-      when Float
-        xml.real value
-      when BigDecimal
-        xml.real value.to_s('F')
+      end,
+      TrueClass  => Proc.new { |xml, value| xml.true },
+      FalseClass => Proc.new { |xml, value| xml.false },
+      Time       => Proc.new { |xml, value| xml.date value.utc.strftime('%Y-%m-%dT%H:%M:%SZ') },
+      Date       => Proc.new { |xml, value| xml.date value.strftime('%Y-%m-%dT%H:%M:%SZ') }, # also catches DateTime
+      String     => Proc.new { |xml, value| xml.string value },
+      Symbol     => Proc.new { |xml, value| xml.string value },
+      Fixnum     => Proc.new { |xml, value| xml.integer value },
+      Bignum     => Proc.new { |xml, value| xml.integer value },
+      Integer    => Proc.new { |xml, value| xml.integer value },
+      Float      => Proc.new { |xml, value| xml.real value },
+      BigDecimal => Proc.new { |xml, value| xml.real value.to_s('F') }
+    }
+
+    def self.to_xml(value, xml)
+      @generators.each do |klass, generator|
+        if value.is_a? klass
+          generator.call(xml, value)
+          break
+        end
       end
     end
 
