@@ -58,7 +58,6 @@ XML
   context "String#to_plist_xml" do
 
     should "output string plists correctly" do
-      puts "a&b".to_plist_xml
       expected_xml = <<-XML
 <?xml version="1.0"?>
 <!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -70,7 +69,6 @@ XML
     end
 
     should "output plist fragments correctly" do
-      puts "a&b".to_plist_xml
       expected_xml = "<string>a&amp;b</string>"
       assert_equal expected_xml, "a&b".to_plist_xml(:fragment => true)
     end
@@ -183,11 +181,12 @@ XML
 
   should "build the document with Nokogiri and pass the options" do
     options = {}
-    builder = mock()
-    xml = "<?xml version=\"1.0\"?>\n<test/>"
-    builder.expects(:to_xml).with(options).returns(xml)
-    Nokogiri::XML::Builder.expects(:new).returns(builder)
-    assert_equal "<?xml version=\"1.0\"?>\n<test/>", [1, 2, 3].to_plist_xml(options)
+    xml = mock()
+    document = mock()
+    document.expects(:to_xml).with(options).returns(xml)
+    Nokogiri::XML::Document.expects(:parse).with("").returns(document)
+    Nokogiri::XML::Builder.expects(:with).with(document)
+    assert_equal xml, [1, 2, 3].to_plist_xml(options)
   end
 
 end

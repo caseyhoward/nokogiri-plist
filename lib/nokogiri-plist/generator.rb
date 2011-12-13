@@ -53,19 +53,25 @@ end
       if xml
         NokogiriPList::Generator.to_xml(self, xml)
       else
-        builder = if options.delete(:fragment)
-          document_fragment = Nokogiri::XML::DocumentFragment.parse("")
-          Nokogiri::XML::Builder.with(document_fragment) do |xml|
+        is_fragment = options.delete(:fragment)
+        document_class = is_fragment ? Nokogiri::XML::DocumentFragment : Nokogiri::XML::Document
+        document = document_class.parse("")
+        Nokogiri::XML::Builder.with(document) do |xml|
+          if is_fragment
             NokogiriPList::Generator.to_xml(self, xml)
+          else
+            add_doctype_to_document(xml.doc)
+            xml.plist(:version => "1.0") do |xml|
+              NokogiriPList::Generator.to_xml(self, xml)
+            end
           end
-          document_fragment.to_xml(options)
-        else
-          builder = Nokogiri::XML::Builder.new do |xml|
-            NokogiriPList::Generator.to_xml(self, xml)
-          end
-          builder.to_xml(options)
         end
+        document.to_xml(options)
       end
+    end
+
+    def add_doctype_to_document(document)
+      document.create_internal_subset("plist", "-//Apple Computer//DTD PLIST 1.0//EN", "http://www.apple.com/DTDs/PropertyList-1.0.dtd")
     end
 
   end
