@@ -53,10 +53,18 @@ end
       if xml
         NokogiriPList::Generator.to_xml(self, xml)
       else
-        builder = Nokogiri::XML::Builder.new do |xml|
-          NokogiriPList::Generator.to_xml(self, xml)
+        builder = if options.delete(:fragment)
+          document_fragment = Nokogiri::XML::DocumentFragment.parse("")
+          Nokogiri::XML::Builder.with(document_fragment) do |xml|
+            NokogiriPList::Generator.to_xml(self, xml)
+          end
+          document_fragment.to_xml(options)
+        else
+          builder = Nokogiri::XML::Builder.new do |xml|
+            NokogiriPList::Generator.to_xml(self, xml)
+          end
+          builder.to_xml(options)
         end
-        builder.to_xml(options)
       end
     end
 

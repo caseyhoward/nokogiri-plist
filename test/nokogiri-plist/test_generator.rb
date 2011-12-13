@@ -62,7 +62,7 @@ class NokogiriPList::GeneratorTest < Test::Unit::TestCase
     end
 
     should "build the document with Nokogiri and pass the options" do
-      options = mock()
+      options = {}
       builder = mock()
       xml = "<?xml version=\"1.0\"?>\n<test/>"
       builder.expects(:to_xml).with(options).returns(xml)
