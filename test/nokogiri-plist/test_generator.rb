@@ -184,8 +184,7 @@ XML
     xml = mock()
     document = mock()
     document.expects(:to_xml).with(options).returns(xml)
-    Nokogiri::XML::Document.expects(:parse).with("").returns(document)
-    Nokogiri::XML::Builder.expects(:with).with(document)
+    Nokogiri::XML::Builder.expects(:new).returns(document)
     assert_equal xml, [1, 2, 3].to_plist_xml(options)
   end
 

@@ -4,6 +4,8 @@ module NokogiriPList
 
   class Generator
 
+    class << self; attr_reader :generators; end
+
     @generators = {
       Array => Proc.new do |xml, value|
         xml.array do
@@ -33,7 +35,7 @@ module NokogiriPList
       BigDecimal => Proc.new { |xml, value| xml.real value.to_s('F') }
     }
 
-    def self.to_xml(value, xml)
+    def self.build_xml(value, xml)
       @generators.each do |klass, generator|
         if value.is_a? klass
           generator.call(xml, value)
@@ -42,36 +44,41 @@ module NokogiriPList
       end
     end
 
-  end
-
-end
-
-[String, Symbol, Integer, Float, BigDecimal, Date, Time, Hash, Array, TrueClass, FalseClass].each do |klass|
-  klass.class_eval do
-
-    def to_plist_xml(options = {}, xml = nil)
+    def self.generate(value, options, xml)
       if xml
-        NokogiriPList::Generator.to_xml(self, xml)
+        build_xml(value, xml)
       else
-        is_fragment = options.delete(:fragment)
-        document_class = is_fragment ? Nokogiri::XML::DocumentFragment : Nokogiri::XML::Document
-        document = document_class.parse("")
-        Nokogiri::XML::Builder.with(document) do |xml|
-          if is_fragment
-            NokogiriPList::Generator.to_xml(self, xml)
-          else
-            add_doctype_to_document(xml.doc)
-            xml.plist(:version => "1.0") do |xml|
-              NokogiriPList::Generator.to_xml(self, xml)
-            end
-          end
-        end
+        document = options.delete(:fragment) ? build_fragment(value) : build_document(value)
         document.to_xml(options)
       end
     end
 
-    def add_doctype_to_document(document)
-      document.create_internal_subset("plist", "-//Apple Computer//DTD PLIST 1.0//EN", "http://www.apple.com/DTDs/PropertyList-1.0.dtd")
+    def self.build_fragment(value)
+      Nokogiri::XML::DocumentFragment.parse("").tap do |document|
+        Nokogiri::XML::Builder.with(document) do |xml|
+          build_xml(value, xml)
+        end
+      end
+    end
+
+    def self.build_document(value)
+      Nokogiri::XML::Builder.new do |xml|
+        xml.doc.create_internal_subset("plist", "-//Apple Computer//DTD PLIST 1.0//EN", "http://www.apple.com/DTDs/PropertyList-1.0.dtd")
+        xml.plist(:version => "1.0") do |xml|
+          build_xml(value, xml)
+        end
+      end
+    end
+
+  end
+
+end
+
+NokogiriPList::Generator.generators.keys.each do |klass|
+  klass.class_eval do
+
+    def to_plist_xml(options = {}, xml = nil)
+      NokogiriPList::Generator.generate(self, options, xml)
     end
 
   end
