@@ -10,32 +10,30 @@ module NokogiriPList
 
     def initialize
       @generators = {
-        Array => Proc.new do |xml, value|
-          xml.array do
-            value.each do |value|
-              generate(value, {}, xml)
-            end
+        Array => Proc.new do |node, value|
+          array_node = create_child_element(node, 'array')
+          value.each do |value|
+            generate(value, {}, array_node)
           end
         end,
-        Hash => Proc.new do |xml, value|
-          xml.dict do
-            value.each do |key, value|
-              xml.key key
-              generate(value, {}, xml)
-            end
+        Hash => Proc.new do |node, value|
+          dict_node = create_child_element(node, 'dict')
+          value.each do |key, value|
+            create_child_element(dict_node, "key", key)
+            generate(value, {}, dict_node)
           end
         end,
-        TrueClass  => Proc.new { |xml, value| xml.true },
-        FalseClass => Proc.new { |xml, value| xml.false },
-        Time       => Proc.new { |xml, value| xml.date value.utc.strftime('%Y-%m-%dT%H:%M:%SZ') },
-        Date       => Proc.new { |xml, value| xml.date value.strftime('%Y-%m-%dT%H:%M:%SZ') }, # also catches DateTime
-        String     => Proc.new { |xml, value| xml.string value },
-        Symbol     => Proc.new { |xml, value| xml.string value },
-        Fixnum     => Proc.new { |xml, value| xml.integer value },
-        Bignum     => Proc.new { |xml, value| xml.integer value },
-        Integer    => Proc.new { |xml, value| xml.integer value },
-        Float      => Proc.new { |xml, value| xml.real value },
-        BigDecimal => Proc.new { |xml, value| xml.real value.to_s('F') }
+        TrueClass  => Proc.new { |node, value| create_child_element(node, "true", {}) },
+        FalseClass => Proc.new { |node, value| create_child_element(node, "false", {}) },
+        Time       => Proc.new { |node, value| create_child_element(node, "date", value.utc.strftime('%Y-%m-%dT%H:%M:%SZ')) },
+        Date       => Proc.new { |node, value| create_child_element(node, "date", value.strftime('%Y-%m-%dT%H:%M:%SZ')) }, # also catches DateTime
+        String     => Proc.new { |node, value| create_child_element(node, "string", value) },
+        Symbol     => Proc.new { |node, value| create_child_element(node, "string", value) },
+        Fixnum     => Proc.new { |node, value| create_child_element(node, "integer", value) },
+        Bignum     => Proc.new { |node, value| create_child_element(node, "integer", value) },
+        Integer    => Proc.new { |node, value| create_child_element(node, "integer", value) },
+        Float      => Proc.new { |node, value| create_child_element(node, "real", value) },
+        BigDecimal => Proc.new { |node, value| create_child_element(node, "real", value.to_s('F')) }
       }
 
       @generators.keys.each do |klass|
@@ -48,18 +46,27 @@ module NokogiriPList
 
     end
 
-    def build_xml(value, xml)
+    def build_xml(node, value)
       @generators.each do |klass, generator|
         if value.is_a? klass
-          generator.call(xml, value)
+          generator.call(node, value)
           break
         end
       end
     end
 
-    def generate(value, options, xml=nil)
-      if xml
-        build_xml(value, xml)
+    def create_child_element(node, name, contents = nil)
+      child_element = if contents
+        node.document.create_element(name, contents)
+      else
+        node.document.create_element(name)
+      end
+      node.add_child(child_element)
+    end
+
+    def generate(value, options={}, node = nil)
+      if node
+        build_xml(node, value)
       else
         document = options.delete(:fragment) ? build_fragment(value) : build_document(value)
         document.to_xml(options)
@@ -68,18 +75,16 @@ module NokogiriPList
 
     def build_fragment(value)
       Nokogiri::XML::DocumentFragment.parse("").tap do |document|
-        Nokogiri::XML::Builder.with(document) do |xml|
-          build_xml(value, xml)
-        end
+        build_xml(document, value)
       end
     end
 
     def build_document(value)
-      Nokogiri::XML::Builder.new do |xml|
-        xml.doc.create_internal_subset("plist", "-//Apple Computer//DTD PLIST 1.0//EN", "http://www.apple.com/DTDs/PropertyList-1.0.dtd")
-        xml.plist(:version => "1.0") do |xml|
-          build_xml(value, xml)
-        end
+      Nokogiri::XML::Document.new.tap do |document|
+        document.create_internal_subset("plist", "-//Apple Computer//DTD PLIST 1.0//EN", "http://www.apple.com/DTDs/PropertyList-1.0.dtd")
+        node = document.create_element("plist", :version => "1.0")
+        document.add_child(node)
+        build_xml(node, value)
       end
     end
 
