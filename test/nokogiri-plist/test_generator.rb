@@ -182,9 +182,9 @@ XML
   should "build the document with Nokogiri and pass the options" do
     options = {}
     xml = mock()
-    document = mock()
+    document = Nokogiri::XML::Document.new
     document.expects(:to_xml).with(options).returns(xml)
-    Nokogiri::XML::Builder.expects(:new).returns(document)
+    Nokogiri::XML::Document.expects(:new).returns(document)
     assert_equal xml, [1, 2, 3].to_plist_xml(options)
   end
 
