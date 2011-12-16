@@ -1,53 +1,25 @@
-require 'bigdecimal'
-
 module NokogiriPList
 
   class Generator
 
-    @generators = {
-      Array => Proc.new do |node, value|
-        array_node = create_child_element(node, 'array')
-        value.each do |value|
-          generate(value, {}, array_node)
-        end
-      end,
-      Hash => Proc.new do |node, value|
-        dict_node = create_child_element(node, 'dict')
-        value.each do |key, value|
-          create_child_element(dict_node, "key", key)
-          generate(value, {}, dict_node)
-        end
-      end,
-      TrueClass  => Proc.new { |node, value| create_child_element(node, "true", {}) },
-      FalseClass => Proc.new { |node, value| create_child_element(node, "false", {}) },
-      Time       => Proc.new { |node, value| create_child_element(node, "date", value.utc.strftime('%Y-%m-%dT%H:%M:%SZ')) },
-      Date       => Proc.new { |node, value| create_child_element(node, "date", value.strftime('%Y-%m-%dT%H:%M:%SZ')) }, # also catches DateTime
-      String     => Proc.new { |node, value| create_child_element(node, "string", value) },
-      Symbol     => Proc.new { |node, value| create_child_element(node, "string", value) },
-      Fixnum     => Proc.new { |node, value| create_child_element(node, "integer", value) },
-      Bignum     => Proc.new { |node, value| create_child_element(node, "integer", value) },
-      Integer    => Proc.new { |node, value| create_child_element(node, "integer", value) },
-      Float      => Proc.new { |node, value| create_child_element(node, "real", value) },
-      BigDecimal => Proc.new { |node, value| create_child_element(node, "real", value.to_s('F')) }
-    }
-
-    @generators.keys.each do |klass|
-      klass.class_eval do
-        def to_plist_xml(options = {})
-          NokogiriPList::Generator.generate(self, options)
-        end
-      end
-    end
+    @generators = {}
 
     class << self
 
-      def build_xml(node, value)
-        @generators.each do |klass, generator|
-          if value.is_a? klass
-            generator.call(node, value)
-            break
+      def add(*klasses, &block)
+        klasses.each do |klass|
+          @generators[klass] = block
+          klass.class_eval do
+            def to_plist_xml(options = {})
+              NokogiriPList::Generator.generate(self, nil, options)
+            end
           end
         end
+      end
+
+      def build_xml(node, value)
+        klass = @generators.keys.detect { |klass| value.is_a? klass }
+        @generators[klass].call(self, node, value)
       end
 
       def create_child_element(node, name, contents = nil)
@@ -56,7 +28,7 @@ module NokogiriPList
         node.add_child(child_element)
       end
 
-      def generate(value, options={}, node = nil)
+      def generate(value, node = nil, options={})
         if node
           build_xml(node, value)
         else
