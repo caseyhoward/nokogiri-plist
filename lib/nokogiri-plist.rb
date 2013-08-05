@@ -8,6 +8,7 @@ rescue LoadError
   retry
 end
 require 'date'
+require 'cgi'
 
 require 'nokogiri-plist/generator'
 require 'nokogiri-plist/parser'
